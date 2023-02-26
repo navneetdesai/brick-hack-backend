@@ -48,23 +48,26 @@ def index(_):
 def lecture(request):
     id_ = request.GET['id']
     lecture_object = Lecture.objects.get(id=id_)
-    # if not Feature.objects.filter(lecture=lecture_object).exists():
-    #     print("Did not find object in feature db")
-    lecture_ = lecture_object.transcript
-    summary = helper.generate_summary(lecture_)
-    outline = helper.generate_outline(lecture_)
-    quiz = helper.generate_quiz(outline)
-    announcements = helper.generate_announcements(lecture_, 2)
-    announcements = [ele['metadata']['text'] for ele in announcements['matches']]
-    feature1 = Feature(lecture=lecture_object, summary=summary, outline=outline, quiz=quiz, announcements=announcements)
-    feature1.save()
-    # else:
-    #     feature = Feature.objects.get(lecture=lecture_object)
-    #     summary, outline, quiz, announcements = feature.summary, feature.outline, feature.quiz, feature.announcements
-    #     lecture_ = lecture_object.transcript
+    # Feature.objects.all().delete()
+    if not Feature.objects.filter(id=id_).exists():
+        print("Did not find object in feature db")
+        lecture_ = lecture_object.transcript
+        summary = helper.generate_summary(lecture_).summary
+        outline = helper.generate_outline(lecture_)
+        quiz = helper.generate_quiz(outline)
+        announcements = helper.generate_announcements(lecture_, 2)
+        announcements = ''.join([ele['metadata']['text'] for ele in announcements['matches']])
+        feature1 = Feature(id=id_, summary=summary, outline=outline, quiz=quiz, announcements=announcements)
+        feature1.save()
+    else:
+        feature = Feature.objects.get(id=id_)
+        print(feature.announcements)
+        summary, outline, quiz, announcements = feature.summary, feature.outline, feature.quiz, feature.announcements.split('\n')
+        lecture_ = lecture_object.transcript
+    # print(summary)
     response = {
-        "summary": helper.remove_empty_strings(list(map(lambda x: f'{x}.' if x else '', summary.summary.split('.')))),
-        "outline": helper.remove_empty_strings(outline.split(',')), "announcements": helper.remove_empty_strings(announcements), "quiz": helper.remove_empty_strings(quiz.split('\n')), "transcript": lecture_}
+        "summary": helper.remove_empty_strings(list(map(lambda x: f'{x}.' if x else '', summary.split('.')))),
+        "outline": helper.remove_empty_strings(outline.split(',')), "announcements": helper.remove_empty_strings(announcements), "quiz": helper.remove_empty_strings(quiz.split('\n')), "transcript": helper.remove_empty_strings(lecture_.split('\n'))}
 
     return JsonResponse(response)
 

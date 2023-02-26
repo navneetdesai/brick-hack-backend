@@ -14,7 +14,7 @@ class Lecture(models.Model):
 
 
 class Feature(models.Model):
-    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
+    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE),
     summary = models.TextField()
     outline = models.TextField()
     quiz = models.TextField()

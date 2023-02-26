@@ -84,4 +84,6 @@ def generate_quiz(text):
 
 
 def remove_empty_strings(string_list):
+    if type(string_list) != list:
+        string_list = string_list.split('\n')
     return [string.strip() for string in string_list if string]
