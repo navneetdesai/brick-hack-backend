@@ -1,4 +1,3 @@
-import cohere
 from data import OOP, OS_CN
 from keys import API_KEY
 import cohere

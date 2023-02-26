@@ -1,13 +1,3 @@
-import json
-
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from .models import Lecture, Feature
-from datetime import datetime
-
-
-
-
 OOP = """
 Object Oriented Programming, or OOP for short, is a programming paradigm that is centered around the concept of objects. These objects are instances of classes, which are essentially blueprints for creating objects with certain properties and behaviors.
 One of the key features of OOP is encapsulation, which involves bundling data and methods that manipulate that data into a single entity, known as a class. This encapsulation helps to create a cleaner, more organized codebase by hiding implementation details and preventing external access to sensitive data. Additionally, it allows for the creation of reusable code, as classes can be instantiated multiple times throughout a program.
@@ -29,33 +19,13 @@ Now, let's talk about the relationship between Operating Systems and computer ne
 Lastly, I want to remind that office hours are available every Tuesday and Thursday from 1pm to 2 pm. If you're struggling with semaphores, mutexes, or any other course material, this is a great opportunity to get some one-on-one help. I'm here to support you and help you succeed in this course
 """
 
-
-def create_dummy_objects():
-    lecture1 = Lecture(Name='Operating Systems', date=datetime.now(), professor='Dr. Phunksuk Wangdu', transcript=OS_CN,
-                       thumbnail='os.png', hidden=False)
-    lecture2 = Lecture(Name='Computer Networks', date=datetime.now(), professor='Dr. Itachi Uchiha', transcript=OS_CN,
-                       thumbnail='os.png', hidden=True)
-    lecture3 = Lecture(Name='OOP', date=datetime.now(), professor='Dr. Minato Namikaze', transcript=OOP,
-                       thumbnail='os.png', hidden=True)
-    lecture3.save()
-    lecture2.save()
-    lecture1.save()
-
-
-def index(_):
-    create_dummy_objects()
-    lectures = Lecture.objects.values()
-    return JsonResponse(list(lectures), safe=False)
-
-
-def lecture(request):  # sourcery skip: merge-dict-assign
-    id_ = request.GET['id']
-    lecture_ = Lecture.objects.get(id=id_).transcript
-    response = {}
-    response["summary"] = "summ1 summ2 summ3".split()
-    response["outline"] = "outline1 outline2 outline3".split()
-    response["announcements"] = "announcements1 announcements2".split()
-    response["quiz"] = "q1 q2 q3 q4 q5".split()
-    response["transcript"] = lecture_
-    return JsonResponse(response)
-
+AI_1000 = """
+Artificial Intelligence (AI) is a field of computer science that focuses on creating machines that can perform tasks that typically require human intelligence. AI is rapidly advancing and is already being used in a wide range of applications, from speech recognition and image classification to autonomous vehicles and financial forecasting. In this lecture, we will explore some of the key concepts in AI and their implications for society.
+One of the foundational concepts in AI is machine learning (ML). ML algorithms allow machines to learn from data and improve their performance over time without being explicitly programmed. There are three types of machine learning: supervised learning, unsupervised learning, and reinforcement learning.
+Supervised learning is the most common type of ML and involves training a machine to make predictions based on labeled data. For example, a machine learning algorithm could be trained to identify whether an image contains a cat or a dog by being given a set of images that are labeled as either cats or dogs. The algorithm would then learn to recognize patterns in the images that distinguish cats from dogs and use these patterns to make predictions about new images.
+Unsupervised learning involves training a machine to find patterns in unlabeled data. This type of ML is often used for tasks such as clustering, where the goal is to group similar data points together. For example, an unsupervised learning algorithm could be used to group customers based on their purchasing habits, which could help businesses target their marketing efforts more effectively.
+Reinforcement learning involves training a machine to make decisions based on feedback from its environment. This type of ML is often used for tasks that involve making a sequence of decisions, such as playing a game or controlling a robot. The machine learns by receiving feedback in the form of rewards or punishments based on its actions.
+Another key concept in AI is deep learning. Deep learning is a subset of machine learning that involves using neural networks, which are complex mathematical models that are loosely based on the structure of the human brain. Deep learning has been particularly successful in tasks such as image and speech recognition, natural language processing, and playing games like Go and chess.
+While AI has many potential benefits, there are also concerns about its impact on society. One of the most significant concerns is job displacement. As AI becomes more capable of performing tasks that were previously done by humans, it could lead to significant job losses in certain industries. There are also concerns about the potential misuse of AI, particularly in areas such as facial recognition, surveillance, and autonomous weapons.
+To address these concerns, there are several ethical and regulatory frameworks that are being developed for AI. These frameworks aim to ensure that AI is developed and used in a way that is transparent, accountable, and beneficial to society as a whole. One of the key principles of ethical AI is explainability, which means that AI systems should be able to provide clear and understandable explanations for their decisions.
+In conclusion, artificial intelligence is a rapidly evolving field that has the potential to transform many aspects of our lives. Machine learning, deep learning, and reinforcement learning are key concepts in AI that enable machines to learn from data and make decisions based on that learning. While AI has many potential benefits, there are also concerns about its impact on society, particularly in terms of job displacement and misuse. Ethical and regulatory frameworks are being developed to ensure that AI is developed and used in a way that is transparent, accountable, and beneficial to society."""
