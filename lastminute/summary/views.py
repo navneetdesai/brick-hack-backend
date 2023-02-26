@@ -45,16 +45,26 @@ def index(_):
     return JsonResponse(list(lectures), safe=False)
 
 
-def lecture(request):  # sourcery skip: merge-dict-assign
+def lecture(request):
     id_ = request.GET['id']
-    lecture_ = Lecture.objects.get(id=id_).transcript
+    lecture_object = Lecture.objects.get(id=id_)
+    # if not Feature.objects.filter(lecture=lecture_object).exists():
+    #     print("Did not find object in feature db")
+    lecture_ = lecture_object.transcript
     summary = helper.generate_summary(lecture_)
     outline = helper.generate_outline(lecture_)
-    response = {}
-    response["summary"] = list(map(lambda x: f'{x}.', summary.summary.split('.')))
-    response["outline"] = outline.split(',')
-    response["announcements"] = "announcements1 announcements2".split()
-    response["quiz"] = "q1 q2 q3 q4 q5".split()
-    response["transcript"] = lecture_
+    quiz = helper.generate_quiz(outline)
+    announcements = helper.generate_announcements(lecture_, 2)
+    announcements = [ele['metadata']['text'] for ele in announcements['matches']]
+    feature1 = Feature(lecture=lecture_object, summary=summary, outline=outline, quiz=quiz, announcements=announcements)
+    feature1.save()
+    # else:
+    #     feature = Feature.objects.get(lecture=lecture_object)
+    #     summary, outline, quiz, announcements = feature.summary, feature.outline, feature.quiz, feature.announcements
+    #     lecture_ = lecture_object.transcript
+    response = {
+        "summary": helper.remove_empty_strings(list(map(lambda x: f'{x}.' if x else '', summary.summary.split('.')))),
+        "outline": helper.remove_empty_strings(outline.split(',')), "announcements": helper.remove_empty_strings(announcements), "quiz": helper.remove_empty_strings(quiz.split('\n')), "transcript": lecture_}
+
     return JsonResponse(response)
 
