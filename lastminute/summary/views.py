@@ -1,10 +1,7 @@
-import json
-
-from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from .models import Lecture, Feature
 from datetime import datetime
-
+from . import helper
 
 
 
@@ -51,9 +48,11 @@ def index(_):
 def lecture(request):  # sourcery skip: merge-dict-assign
     id_ = request.GET['id']
     lecture_ = Lecture.objects.get(id=id_).transcript
+    summary = helper.generate_summary(lecture_)
+    outline = helper.generate_outline(lecture_)
     response = {}
-    response["summary"] = "summ1 summ2 summ3".split()
-    response["outline"] = "outline1 outline2 outline3".split()
+    response["summary"] = list(map(lambda x: f'{x}.', summary.summary.split('.')))
+    response["outline"] = outline.split(',')
     response["announcements"] = "announcements1 announcements2".split()
     response["quiz"] = "q1 q2 q3 q4 q5".split()
     response["transcript"] = lecture_

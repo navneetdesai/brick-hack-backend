@@ -1,4 +1,4 @@
-keys.py
+helpers/keys.py
 django_auth.py
 
 secrets.py
