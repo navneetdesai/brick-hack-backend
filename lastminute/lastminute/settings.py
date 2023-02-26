@@ -22,16 +22,30 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = django_auth.SECRET_KEY
-
+CORS_ORIGIN_ALLOW_ALL = True
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
-
-
+ALLOWED_HOSTS = [
+    # 'lastminuteai.netlify.app'
+    '*'
+                 ]
+# CORS_ALLOWED_ORIGINS = [
+#     "https://lastminuteai.netlify.app"
+#     # '*'
+# ]
+CORS_ORIGIN_WHITELIST = [
+    "https://lastminuteai.netlify.app"
+]
+# CSRF_TRUSTED_ORIGINS = [
+#     'https://lastminuteai.netlify.app',
+#     # '*'
+# ]
+# CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'summary.apps.SummaryConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,9 +58,10 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',

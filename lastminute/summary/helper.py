@@ -87,3 +87,14 @@ def remove_empty_strings(string_list):
     if type(string_list) != list:
         string_list = string_list.split('\n')
     return [string.strip() for string in string_list if string]
+
+def semantic_search(query, k):
+    xq = co.embed(
+        texts=[query],
+        model='large',
+        truncate='None'
+    ).embeddings
+    index = pinecone.Index('cohere-pinecone-os-cn')
+    res = index.query(xq, top_k=k, include_metadata=True)
+    print(res)
+

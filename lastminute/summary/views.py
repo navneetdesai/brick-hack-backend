@@ -3,8 +3,6 @@ from .models import Lecture, Feature
 from datetime import datetime
 from . import helper
 
-
-
 OOP = """
 Object Oriented Programming, or OOP for short, is a programming paradigm that is centered around the concept of objects. These objects are instances of classes, which are essentially blueprints for creating objects with certain properties and behaviors.
 One of the key features of OOP is encapsulation, which involves bundling data and methods that manipulate that data into a single entity, known as a class. This encapsulation helps to create a cleaner, more organized codebase by hiding implementation details and preventing external access to sensitive data. Additionally, it allows for the creation of reusable code, as classes can be instantiated multiple times throughout a program.
@@ -50,7 +48,7 @@ def lecture(request):
     lecture_object = Lecture.objects.get(id=id_)
     # Feature.objects.all().delete()
     if not Feature.objects.filter(id=id_).exists():
-        print("Did not find object in feature db")
+        # print("Did not find object in feature db")
         lecture_ = lecture_object.transcript
         summary = helper.generate_summary(lecture_).summary
         outline = helper.generate_outline(lecture_)
@@ -61,13 +59,29 @@ def lecture(request):
         feature1.save()
     else:
         feature = Feature.objects.get(id=id_)
-        print(feature.announcements)
-        summary, outline, quiz, announcements = feature.summary, feature.outline, feature.quiz, feature.announcements.split('\n')
+        summary, outline, quiz, announcements = feature.summary, feature.outline, feature.quiz, feature.announcements.split(
+            '\n')
         lecture_ = lecture_object.transcript
-    # print(summary)
     response = {
         "summary": helper.remove_empty_strings(list(map(lambda x: f'{x}.' if x else '', summary.split('.')))),
-        "outline": helper.remove_empty_strings(outline.split(',')), "announcements": helper.remove_empty_strings(announcements), "quiz": helper.remove_empty_strings(quiz.split('\n')), "transcript": helper.remove_empty_strings(lecture_.split('\n'))}
+        "outline": helper.remove_empty_strings(outline.split(',')),
+        "announcements": helper.remove_empty_strings(announcements),
+        "quiz": helper.remove_empty_strings(quiz.split('\n')),
+        "transcript": helper.remove_empty_strings(lecture_.split('\n'))}
 
+    response = JsonResponse(response)
+    # response["Access-Control-Allow-Origin"] = "*"
+    # response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    # response["Access-Control-Max-Age"] = "1000"
+    # response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
+    # response["Access-Control-Allow-Origin"] = "*"
+    return response
+
+def semantic_search(request):
+    query = request.POST['query']
+    print(query)
+    result = helper.semantic_search(query, 3)
+    response = {
+        "results": result
+    }
     return JsonResponse(response)
-
