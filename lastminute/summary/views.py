@@ -46,9 +46,7 @@ def index(_):
 def lecture(request):
     id_ = request.GET['id']
     lecture_object = Lecture.objects.get(id=id_)
-    # Feature.objects.all().delete()
     if not Feature.objects.filter(id=id_).exists():
-        # print("Did not find object in feature db")
         lecture_ = lecture_object.transcript
         summary = helper.generate_summary(lecture_).summary
         outline = helper.generate_outline(lecture_)
@@ -70,16 +68,11 @@ def lecture(request):
         "transcript": helper.remove_empty_strings(lecture_.split('\n'))}
 
     response = JsonResponse(response)
-    # response["Access-Control-Allow-Origin"] = "*"
-    # response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
-    # response["Access-Control-Max-Age"] = "1000"
-    # response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
-    # response["Access-Control-Allow-Origin"] = "*"
     return response
+
 
 def semantic_search(request):
     query = request.POST['query']
-    print(query)
     result = helper.semantic_search(query, 3)
     response = {
         "results": result

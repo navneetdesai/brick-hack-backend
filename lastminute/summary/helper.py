@@ -6,7 +6,7 @@ import numpy as np
 co = cohere.Client(django_auth.API_KEY)
 pinecone.init(
     django_auth.PINE_KEY,
-    environment="us-east1-gcp"  # find next to API key in console
+    environment="us-east1-gcp"
 )
 
 
@@ -88,6 +88,7 @@ def remove_empty_strings(string_list):
         string_list = string_list.split('\n')
     return [string.strip() for string in string_list if string]
 
+
 def semantic_search(query, k):
     xq = co.embed(
         texts=[query],
@@ -97,4 +98,3 @@ def semantic_search(query, k):
     index = pinecone.Index('cohere-pinecone-os-cn')
     res = index.query(xq, top_k=k, include_metadata=True)
     print(res)
-
