@@ -27,7 +27,7 @@ pip install -r requirements.txt
 
 
 
-## UI
+## UI(https://github.com/saintlyzero/brick-hack-ui/tree/main/src)
 ![Homepage](images/homepage.png)
 ![Lecture#1](images/lecture1.png)
 ![Lecture#2](images/lecture2.png)
