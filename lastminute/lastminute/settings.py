@@ -34,18 +34,18 @@ ALLOWED_HOSTS = [
 #     "https://lastminuteai.netlify.app"
 #     # '*'
 # ]
-CORS_ORIGIN_WHITELIST = [
-    "https://lastminuteai.netlify.app"
-]
+# CORS_ORIGIN_WHITELIST = [
+#     "https://lastminuteai.netlify.app"
+# ]
 # CSRF_TRUSTED_ORIGINS = [
 #     'https://lastminuteai.netlify.app',
 #     # '*'
 # ]
-# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
 
 INSTALLED_APPS = [
-    'corsheaders',
+    # 'corsheaders',
     'summary.apps.SummaryConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -58,7 +58,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
