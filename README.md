@@ -22,7 +22,8 @@ As students, we've always struggled to catch up on lectures that we've missed. T
 pip install -r requirements.txt
 ```
 
-
+## Architecture
+![Architecture](images/architecture.png)
 
 
 
