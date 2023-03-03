@@ -19,6 +19,7 @@ As students, we've always struggled to catch up on lectures that we've missed. T
 ## Usage
 
 ```
+cd lastminute/
 pip install -r requirements.txt
 ```
 
