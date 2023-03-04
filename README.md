@@ -18,10 +18,25 @@ As students, we've always struggled to catch up on lectures that we've missed. T
 
 ## Usage
 
-```
+```commandline
 cd lastminute/
+pip install virtualenv
+virtualenv venv
+source venv/bin/activate
 pip install -r requirements.txt
 ```
+```commandline
+cd lastminute/
+vim django_auth.py
+# Add "SECRET_KEY = <insert-django-key>" and save 
+cd ../summary/
+vim django_auth.py
+# Add variables and save
+# API_KEY = "<cohere-key>"
+# PINE_KEY = "<pine-cone-key>"
+```
+
+
 
 ## Architecture
 ![Architecture](images/architecture.png)
